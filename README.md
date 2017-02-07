@@ -13,6 +13,6 @@ exploit, after which it starts a listener '''listen.sh'''. It then goes through 
 3 parts of exploitation: Remote code execution, privilege escalation and getting persistent.
 
 ## Acknowledgements
-[Robin Verton](https://github.com/rverton) - cowroot (priv-esc tool for CVE-2016-5195).
-[vnsecurity](http://www.vnsecurity.net/) - nginx 1.4.0 x64 exploit.
-[SCS Stanford](http://www.scs.stanford.edu/brop/) - IP fragmentation router.
+* [Robin Verton](https://github.com/rverton) - cowroot (priv-esc tool for CVE-2016-5195).
+* [vnsecurity](http://www.vnsecurity.net/) - nginx 1.4.0 x64 exploit.
+* [SCS Stanford](http://www.scs.stanford.edu/brop/) - IP fragmentation router.
