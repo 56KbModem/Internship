@@ -10,7 +10,7 @@ function looping
       done | nc -lvp 4000 > out.txt &
 }
 
-if [ -f $FILE ]; then
+if [ -e $FILE ]; then
    looping
 else
    mkfifo /tmp/pipe;
