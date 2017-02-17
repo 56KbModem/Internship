@@ -10,7 +10,7 @@ PORT = 80
 SIZE = 1024
 
 OK_PLUS = '\033[92m+\033[0m'
-NOK_MINUS = '\033[93m\-\033[0m'
+NOK_MINUS = '\033[91m-\033[0m'
 
 def SpawnShell():
 	print "[" + OK_PLUS + "] starting listener"
