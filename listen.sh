@@ -7,7 +7,7 @@ function looping
      while true;
       do
           cat /tmp/pipe;
-      done | nc -lvp 4000 > out.txt &
+      done | nc -lnvp 4000 > out.txt &
 }
 
 if [ -e $FILE ]; then
